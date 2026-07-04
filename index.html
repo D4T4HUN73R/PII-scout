@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PII Scout</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <img src="images/PII_scout_logo.png" alt="PII Scout Logo" class="logo-img"> PII Scout
+        </h1>
+        
+        <!-- File upload section -->
+        <div id="upload-section">
+            <input type="file" id="csv-upload" accept=".csv">
+            <label for="csv-upload">Upload CSV File</label>
+        </div>
+
+        <!-- Map section - hidden initially -->
+        <div id="map-container" class="hidden">
+            <div id="map"></div>
+        </div>
+
+        <!-- Search bar - hidden initially -->
+        <div id="search-section" class="hidden">
+            <input type="text" id="search-input" placeholder="Search all data...">
+            <button id="search-btn">Search</button>
+        </div>
+
+        <!-- Main content grid - hidden initially -->
+        <div class="data-grid hidden">
+            <!-- Left column - Dataset stats -->
+            <div class="column left-column">
+                <div class="stats-card">
+                    <h2>Dataset Stats</h2>
+                    <div id="dataset-stats"></div>
+                </div>
+                
+                <div id="per-column-stats"></div>
+            </div>
+            
+            <!-- Middle column - Data rows -->
+            <div class="column middle-column">
+                <div id="data-rows-container"></div>
+                <div id="pagination"></div>
+            </div>
+            
+            <!-- Right column - Additional stats -->
+            <div class="column right-column">
+                <div id="additional-stats"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay during processing -->
+    <div id="processing-overlay" class="overlay hidden">
+        <div class="processing-content">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p>Processing data...</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
