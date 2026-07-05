@@ -427,17 +427,17 @@ function renderColumnStats(header, stats) {
         const keys = Object.keys(stats.data);
         const firstFive = keys.slice(0, 5);
         const remaining = keys.slice(5);
-        
+
         if (firstFive.length > 0) {
           content += renderBarGraph(
             firstFive.reduce((obj, key) => {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
         }
-        
+
         if (remaining.length > 0) {
           content += `<button class="expand-btn" data-target="${header}-dob">Show ${remaining.length} more</button>`;
           content += `<div class="collapsible-content" id="${header}-dob-content" style="display: none;">`;
@@ -446,7 +446,7 @@ function renderColumnStats(header, stats) {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
           content += `</div>`;
         }
@@ -467,17 +467,17 @@ function renderColumnStats(header, stats) {
         const keys = Object.keys(stats.data);
         const firstFive = keys.slice(0, 5);
         const remaining = keys.slice(5);
-        
+
         if (firstFive.length > 0) {
           content += renderBarGraph(
             firstFive.reduce((obj, key) => {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
         }
-        
+
         if (remaining.length > 0) {
           content += `<button class="expand-btn" data-target="${header}-names">Show ${remaining.length} more</button>`;
           content += `<div class="collapsible-content" id="${header}-names-content" style="display: none;">`;
@@ -486,7 +486,7 @@ function renderColumnStats(header, stats) {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
           content += `</div>`;
         }
@@ -499,17 +499,17 @@ function renderColumnStats(header, stats) {
         const keys = Object.keys(stats.data);
         const firstFive = keys.slice(0, 5);
         const remaining = keys.slice(5);
-        
+
         if (firstFive.length > 0) {
           content += renderBarGraph(
             firstFive.reduce((obj, key) => {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
         }
-        
+
         if (remaining.length > 0) {
           content += `<button class="expand-btn" data-target="${header}-default">Show ${remaining.length} more</button>`;
           content += `<div class="collapsible-content" id="${header}-default-content" style="display: none;">`;
@@ -518,7 +518,7 @@ function renderColumnStats(header, stats) {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
           content += `</div>`;
         }
@@ -527,19 +527,21 @@ function renderColumnStats(header, stats) {
   }
   card.innerHTML = content;
   perColumnStatsEl.appendChild(card);
-  
+
   // Add event listeners for expand/collapse functionality to the card just added
   const currentCard = perColumnStatsEl.lastChild;
-  if (currentCard && currentCard.classList.contains('stats-card')) {
-    const buttons = currentCard.querySelectorAll('.expand-btn');
-    buttons.forEach(button => {
-      button.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target');
-        const content = document.getElementById(targetId + '-content');
+  if (currentCard && currentCard.classList.contains("stats-card")) {
+    const buttons = currentCard.querySelectorAll(".expand-btn");
+    buttons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const targetId = this.getAttribute("data-target");
+        const content = document.getElementById(targetId + "-content");
         if (content) {
-          const isVisible = content.style.display === 'block';
-          content.style.display = isVisible ? 'none' : 'block';
-          this.textContent = isVisible ? `Show ${targetId.split('-').pop()} more` : 'Hide';
+          const isVisible = content.style.display === "block";
+          content.style.display = isVisible ? "none" : "block";
+          this.textContent = isVisible
+            ? `Show ${targetId.split("-").pop()} more`
+            : "Hide";
         }
       });
     });
@@ -651,35 +653,32 @@ function renderColumnStats(header, stats) {
 
   switch (stats.type) {
     case "phone":
-      content += "<h3>Phone Prefixes</h3>";
       if (stats.data && Object.keys(stats.data).length > 0) {
         content += renderBarGraph(stats.data, true);
       }
       break;
     case "email":
-      content += "<h3>Email Domains</h3>";
       if (stats.data && Object.keys(stats.data).length > 0) {
         content += renderBarGraph(stats.data, true);
       }
       break;
     case "dob":
-      content += "<h3>Birth Years</h3>";
       if (stats.data && Object.keys(stats.data).length > 0) {
         // Show first 5 values and add expand button if more exist
         const keys = Object.keys(stats.data);
         const firstFive = keys.slice(0, 5);
         const remaining = keys.slice(5);
-        
+
         if (firstFive.length > 0) {
           content += renderBarGraph(
             firstFive.reduce((obj, key) => {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
         }
-        
+
         if (remaining.length > 0) {
           content += `<button class="expand-btn" data-target="${header}-dob">Show ${remaining.length} more</button>`;
           content += `<div class="collapsible-content" id="${header}-dob-content" style="display: none;">`;
@@ -688,14 +687,13 @@ function renderColumnStats(header, stats) {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
           content += `</div>`;
         }
       }
       break;
     case "ssn":
-      content += "<h3>SSN Stats</h3>";
       content += `<div class="stat-row"><span>Total Records:</span><span class="stat-value">${stats.data.total}</span></div>`;
       content += `<div class="stat-row"><span>Unique SSNs:</span><span class="stat-value">${stats.data.unique}</span></div>`;
       if (stats.data.verification) {
@@ -703,23 +701,22 @@ function renderColumnStats(header, stats) {
       }
       break;
     case "names":
-      content += "<h3>Top Names</h3>";
       if (stats.data && Object.keys(stats.data).length > 0) {
         // Show first 5 values and add expand button if more exist
         const keys = Object.keys(stats.data);
         const firstFive = keys.slice(0, 5);
         const remaining = keys.slice(5);
-        
+
         if (firstFive.length > 0) {
           content += renderBarGraph(
             firstFive.reduce((obj, key) => {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
         }
-        
+
         if (remaining.length > 0) {
           content += `<button class="expand-btn" data-target="${header}-names">Show ${remaining.length} more</button>`;
           content += `<div class="collapsible-content" id="${header}-names-content" style="display: none;">`;
@@ -728,30 +725,29 @@ function renderColumnStats(header, stats) {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
           content += `</div>`;
         }
       }
       break;
     default:
-      content += "<h3>Top Values</h3>";
       if (stats.data && Object.keys(stats.data).length > 0) {
         // Show first 5 values and add expand button if more exist for default types
         const keys = Object.keys(stats.data);
         const firstFive = keys.slice(0, 5);
         const remaining = keys.slice(5);
-        
+
         if (firstFive.length > 0) {
           content += renderBarGraph(
             firstFive.reduce((obj, key) => {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
         }
-        
+
         if (remaining.length > 0) {
           content += `<button class="expand-btn" data-target="${header}-default">Show ${remaining.length} more</button>`;
           content += `<div class="collapsible-content" id="${header}-default-content" style="display: none;">`;
@@ -760,29 +756,31 @@ function renderColumnStats(header, stats) {
               obj[key] = stats.data[key];
               return obj;
             }, {}),
-            true
+            true,
           );
           content += `</div>`;
         }
       }
       break;
   }
-  
+
   card.innerHTML = content;
   perColumnStatsEl.appendChild(card);
-  
+
   // Add event listeners for expand/collapse functionality to the card just added
   const currentCard = perColumnStatsEl.lastChild;
-  if (currentCard && currentCard.classList.contains('stats-card')) {
-    const buttons = currentCard.querySelectorAll('.expand-btn');
-    buttons.forEach(button => {
-      button.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target');
-        const content = document.getElementById(targetId + '-content');
+  if (currentCard && currentCard.classList.contains("stats-card")) {
+    const buttons = currentCard.querySelectorAll(".expand-btn");
+    buttons.forEach((button) => {
+      button.addEventListener("click", function () {
+        const targetId = this.getAttribute("data-target");
+        const content = document.getElementById(targetId + "-content");
         if (content) {
-          const isVisible = content.style.display === 'block';
-          content.style.display = isVisible ? 'none' : 'block';
-          this.textContent = isVisible ? `Show ${targetId.split('-').pop()} more` : 'Hide';
+          const isVisible = content.style.display === "block";
+          content.style.display = isVisible ? "none" : "block";
+          this.textContent = isVisible
+            ? `Show ${targetId.split("-").pop()} more`
+            : "Hide";
         }
       });
     });
