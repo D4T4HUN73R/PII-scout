@@ -98,3 +98,4 @@ name,email,phone,address,latitude,longitude,ssn,dob,postal_code,country,city,lan
 "Michael Davis","michael.davis@nonexistent.invalid","+1 555 765 4321","123 Main St",40.7128,-74.0060,"678-90-1234","1991-07-21","10001","USA","New York","English"
 "Sarah Thompson","sarah.thompson@dead.example","+1 555 765 4321","123 Main St",40.7128,-74.0060,"789-01-2345","1987-03-19","10001","USA","New York","English"
 "James Miller","james.miller@unreachable.tld","+1 555 765 4321","123 Main St",40.7128,-74.0060,"890-12-3456","1993-10-06","10001","USA","New York","English"
+"James Miller","james.miller@unreachable.tld","+1 555 765 4321","123 Main St",40.7128,-74.0060,"890-12-3456","1993-10-06","10001","USA","New York","English"
