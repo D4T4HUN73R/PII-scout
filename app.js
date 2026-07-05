@@ -670,10 +670,9 @@ function renderMap() {
   });
 
   // Add OpenStreetMap tiles - use default OSM
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
+  L.tileLayer(
+    "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+  ).addTo(map);
 
   // Add zoom control to bottom right
   L.control
