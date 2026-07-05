@@ -930,41 +930,6 @@ function renderAdditionalStats() {
     }
   }
 
-  // Check for date of birth and show year stats
-  const dobColumn = findColumnByPattern(dobPatterns);
-
-  if (dobColumn) {
-    const dobValues = csvData.map((row) => row[dobColumn]).filter((val) => val);
-    if (dobValues.length > 0) {
-      const years = countBirthYears(dobValues);
-      renderAdditionalStatCard("Birth Years", "dob", years);
-    }
-  }
-
-  // Check for SSN and show stats
-  const ssnColumn = findColumnByPattern(ssnPatterns);
-
-  if (ssnColumn) {
-    const ssnValues = csvData.map((row) => row[ssnColumn]).filter((val) => val);
-    if (ssnValues.length > 0) {
-      const stats = generateSSNStats(ssnValues);
-      renderAdditionalStatCard("SSN Statistics", "ssn", stats);
-    }
-  }
-
-  // Check for names and show top items
-  const nameColumn = findColumnByPattern(namePatterns);
-
-  if (nameColumn) {
-    const nameValues = csvData
-      .map((row) => row[nameColumn])
-      .filter((val) => val);
-    if (nameValues.length > 0) {
-      const counts = countTopValues(nameValues, 5);
-      renderAdditionalStatCard("Top Names", "names", counts);
-    }
-  }
-
   // Rebind click event listeners to newly added elements - using setTimeout for better DOM readiness
   setTimeout(() => {
     bindClickableEvents();
@@ -995,33 +960,11 @@ function renderAdditionalStatCard(title, category, data) {
 
   switch (category) {
     case "phone":
-      content += "<h3>Phone Prefixes</h3>";
       if (data && Object.keys(data).length > 0) {
         content += renderBarGraph(data, 5);
       }
       break;
     case "email":
-      content += "<h3>Email Domains</h3>";
-      if (data && Object.keys(data).length > 0) {
-        content += renderBarGraph(data, 5);
-      }
-      break;
-    case "dob":
-      content += "<h3>Birth Years</h3>";
-      if (data && Object.keys(data).length > 0) {
-        content += renderBarGraph(data, 5);
-      }
-      break;
-    case "ssn":
-      content += "<h3>SSN Statistics</h3>";
-      content += `<div class="stat-row"><span>Total Records:</span><span class="stat-value">${data.total}</span></div>`;
-      content += `<div class="stat-row"><span>Unique SSNs:</span><span class="stat-value">${data.unique}</span></div>`;
-      if (data.verification) {
-        content += `<div class="stat-row"><span>Valid Format:</span><span class="stat-value">${data.verification}</span></div>`;
-      }
-      break;
-    case "names":
-      content += "<h3>Top Names</h3>";
       if (data && Object.keys(data).length > 0) {
         content += renderBarGraph(data, 5);
       }
