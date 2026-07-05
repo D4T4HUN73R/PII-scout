@@ -313,19 +313,19 @@ function renderDatasetStats() {
   });
 
   datasetStatsEl.innerHTML = `
-        <div class="stat-row">
+        <div class="square-stat">
             <span>Total Rows:</span>
             <span class="stat-value">${stats.totalRows}</span>
         </div>
-        <div class="stat-row">
+        <div class="square-stat">
             <span>Total Columns:</span>
             <span class="stat-value">${stats.totalColumns}</span>
         </div>
-        <div class="stat-row">
+        <div class="square-stat">
             <span>Columns with NaN:</span>
             <span class="stat-value">${stats.columnsWithNaN}</span>
         </div>
-        <div class="stat-row">
+        <div class="square-stat">
             <span>Duplicate Rows:</span>
             <span class="stat-value" style="color: #ff6b6b;">${stats.duplicateRows}</span>
         </div>
@@ -360,21 +360,19 @@ function generateColumnStats(header, values) {
   if (isLocation) return null;
 
   // Check if column is likely a phone number using common patterns
+  // We're removing phone statistics from left column
   const isPhone = phonePatterns.some((pattern) => pattern.test(header));
   if (isPhone) {
-    return {
-      type: "phone",
-      data: countPrefixes(values),
-    };
+    // Return null so no phone stats are shown in the left column
+    return null;
   }
 
   // Check if column is likely an email
+  // We're removing email statistics from left column
   const isEmail = emailPatterns.some((pattern) => pattern.test(header));
   if (isEmail) {
-    return {
-      type: "email",
-      data: countEmailDomains(values),
-    };
+    // Return null so no email stats are shown in the left column
+    return null;
   }
 
   // Check if column is likely a date of birth
@@ -414,7 +412,7 @@ function generateColumnStats(header, values) {
   };
 }
 
-// Render column-specific stats
+// Render column-specific stats with expand/collapse functionality
 function renderColumnStats(header, stats) {
   const card = document.createElement("div");
   card.className = "stats-card";
@@ -422,41 +420,130 @@ function renderColumnStats(header, stats) {
   let content = `<h2>${header} Stats</h2>`;
 
   switch (stats.type) {
-    case "phone":
-      content += "<h3>Phone Prefixes</h3>";
-      if (stats.data && Object.keys(stats.data).length > 0) {
-        content += renderBarGraph(stats.data, true);
-      }
-      break;
-    case "email":
-      content += "<h3>Email Domains</h3>";
-      if (stats.data && Object.keys(stats.data).length > 0) {
-        content += renderBarGraph(stats.data, true);
-      }
-      break;
     case "dob":
       content += "<h3>Birth Years</h3>";
       if (stats.data && Object.keys(stats.data).length > 0) {
-        content += renderBarGraph(stats.data, true);
+        // Show first 5 values and add expand button if more exist
+        const keys = Object.keys(stats.data);
+        const firstFive = keys.slice(0, 5);
+        const remaining = keys.slice(5);
+        
+        if (firstFive.length > 0) {
+          content += renderBarGraph(
+            firstFive.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+        }
+        
+        if (remaining.length > 0) {
+          content += `<button class="expand-btn" data-target="${header}-dob">Show ${remaining.length} more</button>`;
+          content += `<div class="collapsible-content" id="${header}-dob-content" style="display: none;">`;
+          content += renderBarGraph(
+            remaining.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+          content += `</div>`;
+        }
       }
       break;
     case "ssn":
-      content += "<h3>SSN Stats</h3>";
+      content += "<h3>SSN Statistics</h3>";
       content += `<div class="stat-row"><span>Total Records:</span><span class="stat-value">${stats.data.total}</span></div>`;
       content += `<div class="stat-row"><span>Unique SSNs:</span><span class="stat-value">${stats.data.unique}</span></div>`;
       if (stats.data.verification) {
         content += `<div class="stat-row"><span>Valid Format:</span><span class="stat-value">${stats.data.verification}</span></div>`;
       }
       break;
+    case "names":
+      content += "<h3>Top Names</h3>";
+      if (stats.data && Object.keys(stats.data).length > 0) {
+        // Show first 5 values and add expand button if more exist
+        const keys = Object.keys(stats.data);
+        const firstFive = keys.slice(0, 5);
+        const remaining = keys.slice(5);
+        
+        if (firstFive.length > 0) {
+          content += renderBarGraph(
+            firstFive.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+        }
+        
+        if (remaining.length > 0) {
+          content += `<button class="expand-btn" data-target="${header}-names">Show ${remaining.length} more</button>`;
+          content += `<div class="collapsible-content" id="${header}-names-content" style="display: none;">`;
+          content += renderBarGraph(
+            remaining.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+          content += `</div>`;
+        }
+      }
+      break;
     default:
       content += "<h3>Top Values</h3>";
       if (stats.data && Object.keys(stats.data).length > 0) {
-        content += renderBarGraph(stats.data, true);
+        // Show first 5 values and add expand button if more exist for default types
+        const keys = Object.keys(stats.data);
+        const firstFive = keys.slice(0, 5);
+        const remaining = keys.slice(5);
+        
+        if (firstFive.length > 0) {
+          content += renderBarGraph(
+            firstFive.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+        }
+        
+        if (remaining.length > 0) {
+          content += `<button class="expand-btn" data-target="${header}-default">Show ${remaining.length} more</button>`;
+          content += `<div class="collapsible-content" id="${header}-default-content" style="display: none;">`;
+          content += renderBarGraph(
+            remaining.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+          content += `</div>`;
+        }
       }
       break;
   }
   card.innerHTML = content;
   perColumnStatsEl.appendChild(card);
+  
+  // Add event listeners for expand/collapse functionality to the card just added
+  const currentCard = perColumnStatsEl.lastChild;
+  if (currentCard && currentCard.classList.contains('stats-card')) {
+    const buttons = currentCard.querySelectorAll('.expand-btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const content = document.getElementById(targetId + '-content');
+        if (content) {
+          const isVisible = content.style.display === 'block';
+          content.style.display = isVisible ? 'none' : 'block';
+          this.textContent = isVisible ? `Show ${targetId.split('-').pop()} more` : 'Hide';
+        }
+      });
+    });
+  }
 }
 
 // Count phone prefixes
@@ -554,6 +641,155 @@ function renderBarGraph(data, isTop5Only = false) {
 
   return html;
 }
+
+// Render column-specific stats with expand/collapse functionality
+function renderColumnStats(header, stats) {
+  const card = document.createElement("div");
+  card.className = "stats-card";
+
+  let content = `<h2>${header} Stats</h2>`;
+
+  switch (stats.type) {
+    case "phone":
+      content += "<h3>Phone Prefixes</h3>";
+      if (stats.data && Object.keys(stats.data).length > 0) {
+        content += renderBarGraph(stats.data, true);
+      }
+      break;
+    case "email":
+      content += "<h3>Email Domains</h3>";
+      if (stats.data && Object.keys(stats.data).length > 0) {
+        content += renderBarGraph(stats.data, true);
+      }
+      break;
+    case "dob":
+      content += "<h3>Birth Years</h3>";
+      if (stats.data && Object.keys(stats.data).length > 0) {
+        // Show first 5 values and add expand button if more exist
+        const keys = Object.keys(stats.data);
+        const firstFive = keys.slice(0, 5);
+        const remaining = keys.slice(5);
+        
+        if (firstFive.length > 0) {
+          content += renderBarGraph(
+            firstFive.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+        }
+        
+        if (remaining.length > 0) {
+          content += `<button class="expand-btn" data-target="${header}-dob">Show ${remaining.length} more</button>`;
+          content += `<div class="collapsible-content" id="${header}-dob-content" style="display: none;">`;
+          content += renderBarGraph(
+            remaining.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+          content += `</div>`;
+        }
+      }
+      break;
+    case "ssn":
+      content += "<h3>SSN Stats</h3>";
+      content += `<div class="stat-row"><span>Total Records:</span><span class="stat-value">${stats.data.total}</span></div>`;
+      content += `<div class="stat-row"><span>Unique SSNs:</span><span class="stat-value">${stats.data.unique}</span></div>`;
+      if (stats.data.verification) {
+        content += `<div class="stat-row"><span>Valid Format:</span><span class="stat-value">${stats.data.verification}</span></div>`;
+      }
+      break;
+    case "names":
+      content += "<h3>Top Names</h3>";
+      if (stats.data && Object.keys(stats.data).length > 0) {
+        // Show first 5 values and add expand button if more exist
+        const keys = Object.keys(stats.data);
+        const firstFive = keys.slice(0, 5);
+        const remaining = keys.slice(5);
+        
+        if (firstFive.length > 0) {
+          content += renderBarGraph(
+            firstFive.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+        }
+        
+        if (remaining.length > 0) {
+          content += `<button class="expand-btn" data-target="${header}-names">Show ${remaining.length} more</button>`;
+          content += `<div class="collapsible-content" id="${header}-names-content" style="display: none;">`;
+          content += renderBarGraph(
+            remaining.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+          content += `</div>`;
+        }
+      }
+      break;
+    default:
+      content += "<h3>Top Values</h3>";
+      if (stats.data && Object.keys(stats.data).length > 0) {
+        // Show first 5 values and add expand button if more exist for default types
+        const keys = Object.keys(stats.data);
+        const firstFive = keys.slice(0, 5);
+        const remaining = keys.slice(5);
+        
+        if (firstFive.length > 0) {
+          content += renderBarGraph(
+            firstFive.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+        }
+        
+        if (remaining.length > 0) {
+          content += `<button class="expand-btn" data-target="${header}-default">Show ${remaining.length} more</button>`;
+          content += `<div class="collapsible-content" id="${header}-default-content" style="display: none;">`;
+          content += renderBarGraph(
+            remaining.reduce((obj, key) => {
+              obj[key] = stats.data[key];
+              return obj;
+            }, {}),
+            true
+          );
+          content += `</div>`;
+        }
+      }
+      break;
+  }
+  
+  card.innerHTML = content;
+  perColumnStatsEl.appendChild(card);
+  
+  // Add event listeners for expand/collapse functionality to the card just added
+  const currentCard = perColumnStatsEl.lastChild;
+  if (currentCard && currentCard.classList.contains('stats-card')) {
+    const buttons = currentCard.querySelectorAll('.expand-btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const content = document.getElementById(targetId + '-content');
+        if (content) {
+          const isVisible = content.style.display === 'block';
+          content.style.display = isVisible ? 'none' : 'block';
+          this.textContent = isVisible ? `Show ${targetId.split('-').pop()} more` : 'Hide';
+        }
+      });
+    });
+  }
+}
+
+// Add all the functions to the end of the file to properly close it
 
 // Render map with location data
 function renderMap() {

@@ -217,6 +217,115 @@ label[for="csv-upload"]:hover {
     font-weight: bold;
 }
 
+/* Square dataset stats */
+.square-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: rgba(40, 40, 40, 0.8);
+    border-radius: 8px;
+    border: 1px solid #adff2f;
+}
+
+.square-stat span:first-child {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.square-stat .stat-value {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+/* Square dataset stats */
+.square-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: rgba(40, 40, 40, 0.8);
+    border-radius: 8px;
+    border: 1px solid #adff2f;
+}
+
+.square-stat span:first-child {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.square-stat .stat-value {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+/* Expandable sections */
+.expandable-section {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px;
+    background-color: rgba(40, 40, 40, 0.8);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.expandable-section:hover {
+    background-color: rgba(60, 60, 60, 0.8);
+}
+
+.expand-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    margin-right: 10px;
+    color: #adff2f;
+    transition: transform 0.3s ease;
+}
+
+.expand-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Bar graphs */
+.bar-container {
+    margin: 10px 0;
+}
+
+.bar-graph {
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.bar-fill {
+    height: 100%;
+    background-color: #adff2f;
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.bar-label {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: 0.8em;
+    color: #000;
+    font-weight: bold;
+}
+
 /* Data rows */
 .data-row {
     background-color: rgba(25, 25, 25, 0.8);

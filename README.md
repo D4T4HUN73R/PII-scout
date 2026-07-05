@@ -26,17 +26,21 @@ PII Scout is a powerful dashboard for analyzing CSV datasets with Personal Ident
 ## Usage
 
 ### File Upload
+
 - Click the "Upload CSV File" button to select a CSV dataset from your computer
 - The application automatically detects column naming patterns for PII types
 - Supports standard CSV format with headers in the first row
 
 ### Dashboard Layout
+
 The dashboard is organized into a three-column responsive grid:
+
 1. **Left Column** (25%): Dataset statistics and per-column detailed analysis
 2. **Middle Column** (50%): Data rows with expandable details and pagination controls
 3. **Right Column** (25%): Additional aggregated statistics by data type
 
 ### Map Visualization
+
 - Automatically appears when latitude/longitude columns are detected
 - Displays all data points on an interactive world map
 - Click any marker to view complete entry details in a popup
@@ -44,6 +48,7 @@ The dashboard is organized into a three-column responsive grid:
 - Markers show only non-location fields to reduce clutter
 
 ### Search Functionality
+
 - Type any search term in the search input box
 - Press Enter or click "Search" to filter results
 - Results update instantly across all views
@@ -51,6 +56,7 @@ The dashboard is organized into a three-column responsive grid:
 - Reset to show all data by clearing the search
 
 ### Data Row Interaction
+
 - Click any data row to expand/collapse detailed view
 - Rows are auto-named using: name, email, or phone number when present
 - Shows all columns with key-value pairs
@@ -60,36 +66,43 @@ The dashboard is organized into a three-column responsive grid:
 ## Supported Data Types & Detection
 
 ### Location Data
+
 - **Detection Patterns**: latitude, lat, position_lat, pos_lat, coord_lat, longitude, lon, position_lon, pos_lon, coord_lon
 - **Functionality**: Automatic map rendering with marker clustering
 - **Visualization**: Interactive Leaflet.js map with popup details
 
 ### Phone Numbers
+
 - **Detection Patterns**: phone, mobile, telephone, msisdn, phone_number, phone_nr, cell, cellphone
 - **Functionality**: Prefix counting and format validation
 - **Visualization**: Bar graph showing top 5 area code distributions
 
 ### Email Addresses
+
 - **Detection Patterns**: email, e-mail, e-mail-address, mail
 - **Functionality**: Domain extraction and distribution analysis
 - **Visualization**: Bar graph showing top 5 domain occurrences
 
 ### Dates of Birth
+
 - **Detection Patterns**: dob, birth, date_of_birth, birthday
 - **Functionality**: Year extraction from multiple date formats
 - **Visualization**: Bar graph showing birth year distributions
 
 ### Social Security Numbers (SSN)
+
 - **Detection Patterns**: ssn, social security, social number, id number
 - **Functionality**: Format validation (XXX-XX-XXXX)
 - **Statistics**: Total records, unique values, format validity counts
 
 ### Names
+
 - **Detection Patterns**: name, full-name, fullname, first-name, last-name, surname
 - **Functionality**: Top value counting
 - **Visualization**: Bar graph showing top 5 most frequent names
 
 ### Default Data Types
+
 - Generic statistics for non-PII fields
 - Shows total and unique value counts
 - Displays top 5 values with distribution
@@ -97,6 +110,7 @@ The dashboard is organized into a three-column responsive grid:
 ## Technical Implementation
 
 ### Architecture
+
 - **Frontend Stack**: Pure HTML5, CSS3, JavaScript (no frameworks required)
 - **Map Library**: Leaflet.js 1.9.4 for interactive maps
 - **No External APIs**: Works offline after initial page load
@@ -107,6 +121,7 @@ The dashboard is organized into a three-column responsive grid:
 ### Key Components
 
 #### CSV Parser
+
 - Handles standard CSV format
 - Removes quoted strings
 - Trims whitespace
@@ -114,6 +129,7 @@ The dashboard is organized into a three-column responsive grid:
 - Parses CSV with various delimiters
 
 #### Statistical Engine
+
 - Column-specific analysis based on patterns
 - Real-time count calculations
 - Duplicate detection
@@ -121,6 +137,7 @@ The dashboard is organized into a three-column responsive grid:
 - Data type identification
 
 #### Map Renderer
+
 - Automatic location column detection
 - Global view (zoom level 2)
 - Markers with custom popups
@@ -128,18 +145,21 @@ The dashboard is organized into a three-column responsive grid:
 - Map fit bounds for filtered results
 
 #### Search Engine
+
 - Case-insensitive filtering
 - Multi-column search
 - Instant update on keypress
 - Reset to show all data
 
 ### Browser Compatibility
+
 - Chrome/Edge (recommended)
 - Firefox
 - Safari
 - Modern mobile browsers
 
 ### Performance Considerations
+
 - **Optimized for up to 10,000 rows**: Smooth performance
 - **Pagination System**: Default 50 rows per page
 - **Lazy Rendering**: Only visible rows processed
@@ -149,6 +169,7 @@ The dashboard is organized into a three-column responsive grid:
 ## CSV Format Requirements
 
 For optimal functionality:
+
 1. **Headers**: First row must contain column headers
 2. **Encoding**: UTF-8 recommended (supports multilingual data)
 3. **Structure**: Consistent data types within each column
@@ -158,8 +179,9 @@ For optimal functionality:
 ## Sample Dataset
 
 Included `sample-data.csv` contains 1,000 fictional records with:
-- Multilingual names (English, Latin, Farsi, Cyrillic)
-- Various email domains
+
+- Multilingual names (English, Latin, Farsi, Cyrillic, Arabic, Mandarin)
+- Enhanced variety of email domains for better international representation
 - Phone numbers from different regions
 - International addresses
 - Geolocation data (lat/lon coordinates)
@@ -187,6 +209,7 @@ Included `sample-data.csv` contains 1,000 fictional records with:
 ## Development Notes
 
 ### File Structure
+
 - `index.html`: Main application interface
 - `app.js`: Core application logic (~985 lines)
 - `styles.css`: Styling and dark theme (~472 lines)
@@ -194,6 +217,7 @@ Included `sample-data.csv` contains 1,000 fictional records with:
 - `images/PII_scout_logo.png`: Application branding
 
 ### JavaScript Architecture
+
 - Modular function design
 - Event-driven architecture
 - State management with global variables
@@ -201,6 +225,7 @@ Included `sample-data.csv` contains 1,000 fictional records with:
 - Pattern-based data detection
 
 ### CSS Design
+
 - CSS Grid for 3-column layout
 - Flexbox for component alignment
 - CSS variables for theming
@@ -210,6 +235,7 @@ Included `sample-data.csv` contains 1,000 fictional records with:
 ## Contributing
 
 This project is designed for educational purposes and demonstration of PII analysis concepts. For actual security-sensitive applications:
+
 - Consult with data protection experts
 - Implement proper encryption and access controls
 - Consider GDPR, CCPA, and other regulatory requirements
